@@ -69,11 +69,9 @@ public class mainCEC2022 {
             TLBO tlbo= new TLBO(pop ,lb, ub, dim, maxiter, x, type);
             double[] teach = tlbo.execute_TLBO();
             Results_TLBO[i] = teach;
-
-    //------------------------------
-            TNNDEAlgorithm tlnna= new  TNNDEAlgorithm(pop ,dim, lb, ub, maxiter, x , type);
-            double[] TLnna = tlnna.execute_TLNND();
-            Results_TNNDE[i]= TLnna;
+            TNNDEAlgorithm tnnde= new  TNNDEAlgorithm(pop ,dim, lb, ub, maxiter, x , type);
+            double[] Tnnde = tnnde.execute_TNNDE();
+            Results_TNNDE[i]= Tnnde;
     //--------------------------------
         }
         double[] MeanEvolution_NNA = calculateMeanEvolution(Results_NNA, maxiter,numberOfRuns);  
@@ -95,24 +93,20 @@ public class mainCEC2022 {
         double SD_TNNDE = calculateStandardDeviation(MeanEvolution_TNNDE, mean_TNNDE);  
         System.out.println("Standard Deviation TNNDE: " + SD_TNNDE);
 
- //-----------------------------------------------------------------------------------
+ 
         XYSeriesCollection  dataset=new XYSeriesCollection();
          XYSeries series0= new XYSeries("NNA");
          XYSeries series1= new XYSeries("TLBO");         
          XYSeries series2= new XYSeries("TNNDE");
-         
-//-----------------------------------------------------------------------------------         
+        
        for(int k=0; k< MeanEvolution_NNA.length; k++){
              series0.add(k+1,MeanEvolution_NNA[k]);
              series1.add(k+1,MeanEvolution_TLBO[k]);
              series2.add(k+1,MeanEvolution_TNNDE[k]);
-        }
-//-----------------------------------------------------------------------------------        
+        }       
         dataset.addSeries(series0);
         dataset.addSeries(series1);
         dataset.addSeries(series2);
-        
-        
         
      JFreeChart chart= ChartFactory.createXYLineChart("F" + type , "iteration", "Objective Function Value" ,
                 dataset,PlotOrientation.VERTICAL, true,true, false );
