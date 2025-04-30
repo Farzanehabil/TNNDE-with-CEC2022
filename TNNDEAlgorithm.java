@@ -15,7 +15,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
  */
 public class TNNDEAlgorithm {
     private int pop,iter,dim;
-    private double lb=0, ub;
+    private double lb, ub;
     private double[][] x;
     private double[] cost;        
     private double[][] worst;
@@ -39,7 +39,7 @@ public class TNNDEAlgorithm {
         this.dim = dimention;
         this.ub = ub; 
         this.lb = lb;
-        this.x = new double[pop][dim];
+        this.x = x_init.clone();
         this.cost = new double[pop];   
         this.best = new double[pop/2][dim];
         this.worst =new double[pop/2][dim];  
@@ -52,13 +52,6 @@ public class TNNDEAlgorithm {
         this.best_fit_iter = new double[iter];
     }
     
-    private void initPopulation() {          
-	for (int i = 0; i < pop; i++) {
-	    for (int j = 0; j < dim; j++) {
-		x[i][j]= lb + (ub - lb)*rand.nextDouble();   
-	    }
-       }        
-    }
     
     private void init_weight(){        
         for(int i=0; i<pop/2 ; i++){
@@ -187,8 +180,8 @@ public class TNNDEAlgorithm {
     
     
     
-public double[] execute_TLNND(){ 
-        initPopulation();
+public double[] execute_TNNDE(){ 
+       
         init_weight();
         cec22fit fit= new cec22fit(typefunc);
          for(int i=0; i<pop ; i++){
@@ -221,7 +214,7 @@ public double[] execute_TLNND(){
                 for (int j = 0; j < dim; j++) { 
                      x_new[i][j] = 0;
                     for (int k = 0; k < Npop; k++) {  
-                         x_new[i][j] += weight[k][i] * worst[k][j];  //???????????
+                         x_new[i][j] += weight[k][i] * worst[k][j]; 
                     }  
                 } check_bound(x_new[i]);
             } 
